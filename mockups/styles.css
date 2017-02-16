@@ -54,10 +54,6 @@ body {
   margin-bottom: 10px;
 }
 
-.cards-container .card:last-child {
-  margin-bottom: 0;
-}
-
 .card {
   background: #fff;
   border: 1px solid #d7d7d7;
@@ -69,6 +65,7 @@ body {
   -moz-box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, 0.1);
   box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.1);
   position: relative;
+  cursor: move;
 }
 
 .card.active,
@@ -227,4 +224,25 @@ body {
   border-color: #E57373;
 }
 
+.cards-container:after {
+  content: '';
+  display: none;
+  background: #fcfcfc;
+  border: 2px dashed #ccc;
+  border-radius: 5px;
+  height: 57px;
+}
 
+.cards-container.ui-droppable-active:after {
+  display: block;
+}
+
+.cards-container.ui-droppable-hover:after {
+  background: #eee;
+  border-color: #00C853;
+}
+
+.cards-container.ui-droppable-active.dragging-from:after,
+.card-draggable.ui-draggable-dragging ~ .cards-container:after {
+  display: none;
+}
