@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ember | Xin Board</title>
+
+  <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css">
+  <link rel="stylesheet" href="styles.css">
+
+  <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="../bower_components/jquery-ui/jquery-ui.min.js"></script>
+  <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="app.js"></script>
+</head>
+<body>
+
+  <div id="page">
+    <section id="content">
+      <div class="container-fluid">
+
+        <!-- Sub-header -->
+        <div class="row sub-header">
+          <div class="col-xs-12 sub-header-wrap">
+            <h1>Xin Board</h1>
+            <button class="btn btn-primary btn-sm" type="button" title="Add a new card">New Card</button>
+            <button class="btn btn-default btn-sm pull-right" type="button" title="Remove all cards">Clear</button>
+          </div>
+        </div>
+
+        <!-- Column Header -->
+        <div class="row column-header">
+          <div class="col-xs-4">
+            <h2>Backlog</h2>
+          </div>
+          <div class="col-xs-4">
+            <h2>In Progress</h2>
+          </div>
+          <div class="col-xs-4">
+            <h2>Done</h2>
+          </div>
+        </div>
+
+        <!-- Columns -->
+        <div class="row columns-container">
+          <div class="col-xs-4">
+            <div class="cards-container">
+              <div class="card">
+                <span class="card-actions">
+                  <button type="button" class="color-chooser" title="Change color">a</button>
+                  <button type="button" class="close" title="Remove this card">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </span>
+                <textarea spellcheck="false" class="card-title">Story #1</textarea>
+              </div>
+
+              <div class="card green">
+                <span class="card-actions">
+                  <button type="button" class="color-chooser" title="Change color">a</button>
+                  <button type="button" class="close" title="Remove this card">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </span>
+                <textarea spellcheck="false" class="card-title">Story #1</textarea>
+              </div>
+
+              <div class="card blue">
+                <span class="card-actions">
+                  <button type="button" class="color-chooser" title="Change color">a</button>
+                  <button type="button" class="close" title="Remove this card">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </span>
+                <textarea spellcheck="false" class="card-title">Story #1</textarea>
+              </div>
+
+              <div class="card yellow">
+                <span class="card-actions">
+                  <button type="button" class="color-chooser" title="Change color">a</button>
+                  <button type="button" class="close" title="Remove this card">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </span>
+                <textarea spellcheck="false" class="card-title">Story #1</textarea>
+              </div>
+
+              <div class="card red">
+                <span class="card-actions">
+                  <button type="button" class="color-chooser" title="Change color">a</button>
+                  <button type="button" class="close" title="Remove this card">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </span>
+                <textarea spellcheck="false" class="card-title">Story #1</textarea>
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-4">
+            <div class="cards-container">
+
+              <div class="card">
+                <span class="card-actions">
+                  <button type="button" class="color-chooser" title="Change color">a</button>
+                  <button type="button" class="close" title="Remove this card">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </span>
+                <textarea spellcheck="false" class="card-title">Story #1</textarea>
+              </div>
+
+              <div class="card green">
+                <span class="card-actions">
+                  <button type="button" class="color-chooser" title="Change color">a</button>
+                  <button type="button" class="close" title="Remove this card">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </span>
+                <textarea spellcheck="false" class="card-title">Story #1</textarea>
+              </div>
+
+              <div class="card blue">
+                <span class="card-actions">
+                  <button type="button" class="color-chooser" title="Change color">a</button>
+                  <button type="button" class="close" title="Remove this card">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </span>
+                <textarea spellcheck="false" class="card-title">Story #1</textarea>
+              </div>
+
+              <div class="card yellow">
+                <span class="card-actions">
+                  <button type="button" class="color-chooser" title="Change color">a</button>
+                  <button type="button" class="close" title="Remove this card">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </span>
+                <textarea spellcheck="false" class="card-title">Story #1</textarea>
+              </div>
+
+              <div class="card red">
+                <span class="card-actions">
+                  <button type="button" class="color-chooser" title="Change color">a</button>
+                  <button type="button" class="close" title="Remove this card">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </span>
+                <textarea spellcheck="false" class="card-title">Story #1</textarea>
+              </div>
+
+            </div>
+          </div>
+          <div class="col-xs-4">
+            <div class="cards-container">
+              <div class="card">
+                <span class="card-actions">
+                  <button type="button" class="color-chooser" title="Change color" data-placement="left">a</button>
+                  <button type="button" class="close" title="Remove this card">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </span>
+                <textarea spellcheck="false" class="card-title">Story #1</textarea>
+              </div>
+
+              <div class="card green">
+                <span class="card-actions">
+                  <button type="button" class="color-chooser" title="Change color" data-placement="left">a</button>
+                  <button type="button" class="close" title="Remove this card">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </span>
+                <textarea spellcheck="false" class="card-title">Story #1</textarea>
+              </div>
+
+              <div class="card blue">
+                <span class="card-actions">
+                  <button type="button" class="color-chooser" title="Change color" data-placement="left">a</button>
+                  <button type="button" class="close" title="Remove this card">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </span>
+                <textarea spellcheck="false" class="card-title">Story #1</textarea>
+              </div>
+
+              <div class="card yellow">
+                <span class="card-actions">
+                  <button type="button" class="color-chooser" title="Change color" data-placement="left">a</button>
+                  <button type="button" class="close" title="Remove this card">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </span>
+                <textarea spellcheck="false" class="card-title">Story #1</textarea>
+              </div>
+
+              <div class="card red">
+                <span class="card-actions">
+                  <button type="button" class="color-chooser" title="Change color" data-placement="left">a</button>
+                  <button type="button" class="close" title="Remove this card">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </span>
+                <textarea spellcheck="false" class="card-title">Story #1</textarea>
+              </div>
+            </div>
+          </div>
+        </div><!-- .columns-container -->
+
+      </div>
+    </section>
+  </div>
+
+  <ul id="color-chooser-dropdown" class="dropdown-menu">
+    <li>
+      <span>Change color:</span>
+    </li>
+    <li>
+      <a><div class="cc"></div>White</a>
+    </li>
+    <li>
+      <a><div class="cc blue"></div>Blue</a>
+    </li>
+    <li>
+      <a><div class="cc green"></div>Green</a>
+    </li>
+    <li>
+      <a><div class="cc yellow"></div>Yellow</a>
+    </li>
+    <li>
+      <a><div class="cc red"></div>Red</a>
+    </li>
+  </ul>
+
+</body>
+</html>

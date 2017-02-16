@@ -1,0 +1,230 @@
+html, body {
+  height: 100%;
+}
+
+#page {
+  min-height: 100%;
+  position: relative;
+}
+
+body {
+  background: #eef1f7;
+  overflow: hidden;
+}
+
+.btn-primary {
+  background: #42A5F5;
+  border-color: #1976D2;
+}
+
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:focus {
+  background: #2196F3;
+  border-color: #1565C0;
+}
+
+.sub-header h1 {
+  display: inline-block;
+  color: #fff;
+  font-size: 20px;
+  margin: 0 10px 0 0;
+}
+
+.sub-header .btn {
+  margin-bottom: 5px;
+}
+
+.sub-header .sub-header-wrap {
+  background: #006ba9;
+  padding: 20px 15px 15px;
+}
+
+.column-header h2 {
+  font-size: 14px;
+  font-weight: normal;
+  margin: 15px 0;
+}
+
+.columns-container {
+  overflow-y: auto;
+}
+
+.cards-container .card {
+  margin-bottom: 10px;
+}
+
+.cards-container .card:last-child {
+  margin-bottom: 0;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #d7d7d7;
+  border-radius: 5px;
+  color: #666;
+  padding: 14px 12px;
+  line-height: 12px;
+  -webkit-box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.card.active,
+.card:hover {
+  background: #f7f7f7;
+}
+
+.card-title {
+  background: none;
+  resize: none;
+  width: 100%;
+  min-height: 26px;
+  height: 26px;
+  max-height: 100px;
+  padding: 2px 5px;
+  margin: 0;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  line-height: 22px;
+  cursor: pointer;
+}
+
+.card.active .card-title {
+  background: #fff;
+}
+
+.card-actions {
+  display: none;
+  font-size: 12px;
+  line-height: 12px;
+  font-weight: 500;
+  color: #ccc;
+  position: absolute;
+  top: 6px;
+  right: 8px;
+}
+
+.card-actions .close {
+  line-height: 12px;
+}
+
+.card:hover .card-actions,
+.card-actions.active {
+  display: inline-block;
+}
+
+.color-chooser {
+  background: #fff;
+  border: 1px solid;
+  text-align: center;
+  margin-right: 4px;
+  outline: none;
+  padding: 0 4px 1px;
+}
+
+.color-chooser:hover {
+  border-color: #a8a8a8;
+  color: #a8a8a8;
+}
+
+#color-chooser-dropdown {
+  margin-top: 12px;
+  min-width: 140px;
+  width: 140px;
+}
+
+#color-chooser-dropdown li:first-child {
+  font-weight: 500;
+  padding: 3px 10px;
+}
+
+#color-chooser-dropdown:before {
+  position: absolute;
+  left: 6px;
+  top: -8px;
+  width: 0;
+  content: '';
+  border-style: solid;
+  border-width: 0 10px 10px;
+  border-color: #fff transparent;
+  display: block;
+  z-index: 1;
+}
+
+#color-chooser-dropdown:after {
+  position: absolute;
+  left: 6px;
+  top: -10px;
+  width: 0;
+  content: '';
+  border-style: solid;
+  border-width: 0 10px 10px;
+  border-color: #ccc transparent;
+  display: block;
+  z-index: 0;
+}
+
+#color-chooser-dropdown.placement-left:before,
+#color-chooser-dropdown.placement-left:after {
+  left: 112px;
+}
+
+.dropdown-menu a {
+  cursor: pointer;
+}
+
+.cc {
+  display: inline-block;
+  width: 11px;
+  height: 11px;
+  margin-left: -10px;
+  margin-right: 6px;
+  background: #fff;
+  border: 1px solid #d7d7d7;
+}
+
+/** -- Card Colors --**/
+.green  {
+  background: #C8E6C9;
+  border: 1px solid #A5D6A7;
+}
+.green.active,
+.green:hover {
+  background: #A5D6A7;
+  border-color: #81C784;
+}
+
+.blue {
+  background: #BBDEFB;
+  border: 1px solid #90CAF9;
+}
+.blue.active,
+.blue:hover {
+  background: #90CAF9;
+  border-color: #64B5F6;
+}
+
+.yellow {
+  background: #FFF9C4;
+  border: 1px solid #FFEB3B;
+}
+.yellow.active,
+.yellow:hover {
+  background: #FFF59D;
+  border-color: #FDD835;
+}
+
+.red {
+  background: #FFCDD2;
+  border: 1px solid #EF9A9A;
+}
+.red.active,
+.red:hover {
+  background: #EF9A9A;
+  border-color: #E57373;
+}
+
+
