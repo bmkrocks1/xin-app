@@ -1,0 +1,72 @@
+<header>
+    <div class="container-fluid">
+        <div class="row sub-header">
+            <div class="col-xs-12 sub-header-wrap">
+                <h1>Xin Board</h1>
+                <button {{action "newCard"}} class="btn btn-primary btn-sm" type="button" title="Add a new card">New Card</button>
+                <button class="btn btn-default btn-sm pull-right" type="button" title="Remove all cards">Clear</button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<section id="board">
+    <div class="container-fluid">
+
+        <!-- Column Header -->
+        <div class="row column-header">
+            <div class="col-xs-4">
+                <h2>Backlog</h2>
+            </div>
+            <div class="col-xs-4">
+                <h2>In Progress</h2>
+            </div>
+            <div class="col-xs-4">
+                <h2>Done</h2>
+            </div>
+        </div>
+
+        <!-- Columns -->
+        <div class="row columns-container">
+            <div class="col-xs-4">
+                <div class="cards-container">
+
+                  {{#each model as |card|}}
+                    <div class="card {{card.color}}" onclick={{action "onCardClick"}} id="{{card.id}}">
+                        {{#story-card title=card.title onTitleEnter=(action "updateTitle")}}{{/story-card}}
+                    </div>
+                  {{/each}}
+
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <div class="cards-container"></div>
+            </div>
+            <div class="col-xs-4">
+                <div id="done" class="cards-container"></div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<ul id="color-chooser-dropdown" class="dropdown-menu">
+    <li>
+        <span>Change color:</span>
+    </li>
+    <li>
+        <a><div class="cc"></div>White</a>
+    </li>
+    <li>
+        <a><div class="cc blue"></div>Blue</a>
+    </li>
+    <li>
+        <a><div class="cc green"></div>Green</a>
+    </li>
+    <li>
+        <a><div class="cc yellow"></div>Yellow</a>
+    </li>
+    <li>
+        <a><div class="cc red"></div>Red</a>
+    </li>
+</ul>

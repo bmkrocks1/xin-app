@@ -168,6 +168,7 @@ $(document).ready(function() {
     receive: function(event, ui) {
       var dragged = ui.item;
       dragged.parent().removeClass('dragging-from');
+      dragged.find('.card-actions').removeClass('active');
       // clear unwanted styles
       dragged.css({ left: '', top: '', width: '', height: ''});
       // update data-placement attribute for the drop down placement
@@ -177,5 +178,7 @@ $(document).ready(function() {
 
   $(window).resize(onWindowResize);
   onWindowResize();
+
+  $('#done .color-chooser').attr('data-placement', 'left');
 
 });
