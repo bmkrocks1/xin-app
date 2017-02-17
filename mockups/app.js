@@ -1,11 +1,12 @@
 'use strict';
 
 $(document).ready(function() {
-  var colorChooserDropdown = $('#color-chooser-dropdown'),
+  var card = $('.card'),
+      colorChooserDropdown = $('#color-chooser-dropdown'),
       heightLimit = 200,
       cardTitle = $('.card-title');
 
-  $('.card').click(function(event) {
+  card.click(function(event) {
     event.stopPropagation();
 
     hideCardActions();
@@ -120,33 +121,57 @@ $(document).ready(function() {
     colorChooserDropdown.hide();
   }
 
-  // -- Draggable
-  $('.card-draggable').draggable({
+  // -- Create draggable cards
+  card.draggable({
     containment: '.columns-container',
+    connectToSortable: '.cards-container',
     revert: 'invalid',
     zIndex: 100,
+    opacity: .95,
+    start: function(event, ui) {
+      // -- Create a card drop placeholder at the bottom of each .cards-container
+      // excluding the container where the dragged card came from.
+      $('.cards-container').not($(this).parent()).append('<div class="card-drop-placeholder"></div>');
+      $('.card-drop-placeholder')
+        .css({ height: ui.helper.height() })
+        .droppable({
+          accept: '.card',
+          tolerance: 'intersect',
+          over: function(event, ui) {
+            $(this).css({
+              borderColor: ui.draggable.css('borderColor'),
+              background: '#eee'
+            });
+          },
+          out: function() {
+            $(this).css({ borderColor: '', background: '' });
+          }
+        });
+    },
+    stop: function() {
+      // -- Remove the card drop placeholders
+      $('.card-drop-placeholder').remove();
+    },
     drag: function(event, ui) {
-        hideColorChooserDropdown();
-        removeOpenColorChooser();
-        ui.helper.parent().addClass('dragging-from');
+      // -- Hide popups while dragging the card
+      hideColorChooserDropdown();
+      removeOpenColorChooser();
+      ui.helper.parent().addClass('dragging-from');
     }
   });
 
-  // -- Droppable
-  $('.cards-container').droppable({
-    accept: '.card-draggable',
-    tolerance: 'intersect',
-    drop: function(event, ui) {
-      var dragged = ui.draggable;
+  // -- Make the .cards-container sortable
+  $('.cards-container').sortable({
+    containment: '.columns-container',
+    items: '.card.ui-draggable',
+    tolerance: 'pointer',
+    receive: function(event, ui) {
+      var dragged = ui.item;
       dragged.parent().removeClass('dragging-from');
-      dragged.css({ left: '', top: ''});
-      $(this).append(dragged);
-      if (dragged.parent().is('#done')) {
-        dragged.find('.color-chooser').attr('data-placement', 'left');
-      }
-      else {
-        dragged.find('.color-chooser').attr('data-placement', 'right');
-      }
+      // clear unwanted styles
+      dragged.css({ left: '', top: '', width: '', height: ''});
+      // update data-placement attribute for the drop down placement
+      dragged.find('.color-chooser').attr('data-placement', dragged.parent().is('#done') ? 'left' : 'right');
     }
   });
 

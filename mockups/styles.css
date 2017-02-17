@@ -224,25 +224,14 @@ body {
   border-color: #E57373;
 }
 
-.cards-container:after {
-  content: '';
-  display: none;
+.card-drop-placeholder {
   background: #fcfcfc;
   border: 2px dashed #ccc;
   border-radius: 5px;
-  height: 57px;
+  min-height: 57px;
+  margin-bottom: 10px;
 }
 
-.cards-container.ui-droppable-active:after {
-  display: block;
-}
-
-.cards-container.ui-droppable-hover:after {
-  background: #eee;
-  border-color: #00C853;
-}
-
-.cards-container.ui-droppable-active.dragging-from:after,
-.card-draggable.ui-draggable-dragging ~ .cards-container:after {
-  display: none;
+.card.ui-draggable-dragging .card-title {
+  cursor: move;
 }
