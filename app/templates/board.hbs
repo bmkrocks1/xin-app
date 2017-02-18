@@ -32,9 +32,8 @@
                 <div class="cards-container">
 
                   {{#each model as |card|}}
-                    <div class="card {{card.color}}" onclick={{action "onCardClick"}} id="{{card.id}}">
-                        {{#story-card title=card.title onTitleEnter=(action "updateTitle")}}{{/story-card}}
-                    </div>
+                    {{#story-card id=card.id color=card.color title=card.title onTitleEnter=(action "updateTitle")}}
+                    {{/story-card}}
                   {{/each}}
 
                 </div>

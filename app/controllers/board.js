@@ -1,39 +1,37 @@
 import Ember from 'ember';
+import DocumentClickMixin from '../mixins/document-click';
 
 /* globals $ */
-export default Ember.Controller.extend({
+export default Ember.Controller.extend(DocumentClickMixin, {
+  counter: 1,
   actions: {
     /*
-     * Creates new card and persists it to localStorage.
+     * Create new card and persist to localStorage.
      */
     newCard() {
-      var createdCard = this.get('store').createRecord('card', { title: 'Story #1' });
-      createdCard.save();
+      this.get('store').createRecord('card', { title: `Story #${this.counter++}` }).save();
     },
 
     /*
-     * Card click handler.
-     */
-    onCardClick(event) {
-      $('.card-actions').removeClass('active');
-      $('#color-chooser-dropdown').hide();
-
-      var target = $(event.target);
-      if (target.is('.card-title')) {
-        target.closest('.card').addClass('active');
-      }
-
-      return false;
-    },
-
-    /*
-     * Updates card title given its ID in localStorage.
+     * Update card's title
      */
     updateTitle(id, title) {
-      this.get('store').findRecord('card', id).then(function(card) {
+      this.get('store').findRecord('card', id).then((card) => {
         card.set('title', title);
         card.save();
       });
     }
+  },
+
+  onDocumentClick() {
+    $('.card').removeClass('active');
+    $('.card-actions').removeClass('active');
+    $('.color-chooser').removeClass('open');
+    $('#color-chooser-dropdown').hide();
   }
 });
+
+// TODO: window resize handler and updateScrollHeight
+// TODO: drag and drop, and sortable
+// TODO: color changer
+// TODO: remove card

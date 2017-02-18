@@ -1,11 +1,10 @@
 <span class="card-actions">
-    <button type="button" class="color-chooser" title="Change color">a</button>
-    <button type="button" class="close" title="Remove this card">
-        <span aria-hidden="true">&times;</span>
-    </button>
-  </span>
+  <button type="button" class="color-chooser" title="Change color">a</button>
+  <button type="button" class="close" title="Remove this card">
+      <span aria-hidden="true">&times;</span>
+  </button>
+</span>
 <textarea spellcheck="false" class="card-title"
-          oninput={{action "onTitleInput"}}
-          onkeypress={{action "onKeyPress"}}
-          value="{{title}}">
+  oninput={{action "onInput"}} onkeypress={{action "onKeyPress"}}
+  onblur={{action "onBlur"}} value="{{title}}">
 </textarea>

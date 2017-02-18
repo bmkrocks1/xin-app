@@ -2,28 +2,51 @@ import Ember from 'ember';
 
 /* globals $ */
 export default Ember.Component.extend({
+  id: this.id,
+  classNames: ['card', this.color],
   actions: {
     /*
-     * Title's on input handler.
+     * Title onInput
      */
-    onTitleInput(event) {
-      var target = $(event.target);
+    onInput(event) {
       if (event.target.scrollHeight > 30) {
+        let target = $(event.target);
         target.height('');
         target.height(Math.min(event.target.scrollHeight, /*heightLimit=*/200) + 'px');
       }
     },
 
     /*
-     * Title's on enter listener.
+     * Title onEnter
      */
     onKeyPress(event) {
       if (event.which === 13) {
-        var target = $(event.target);
-        target.blur().closest('.card').removeClass('active');
-        this.get('onTitleEnter')(target.closest('.card').attr('id'), target.val());
-        return false;
+        $(event.target).blur();
       }
+    },
+
+    /*
+     * Title onBlur
+     */
+    onBlur(event) {
+      var thisCard = this.$();
+      thisCard.removeClass('active');
+      this.get('onTitleEnter')(thisCard.attr('id'), event.target.value);
     }
+  },
+
+  didInsertElement() {
+    var thisCard = this.$();
+    thisCard.click((event) => {
+      event.stopPropagation();
+
+      $('.card-actions').removeClass('active');
+      $('#color-chooser-dropdown').hide();
+
+      var target = $(event.target);
+      if (target.is('.card-title')) {
+        thisCard.addClass('active');
+      }
+    });
   }
 });
