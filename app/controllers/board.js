@@ -1,15 +1,15 @@
 import Ember from 'ember';
-import DocumentClickMixin from '../mixins/document-click';
+import WindowResizeMixin from '../mixins/window-resize';
 
 /* globals $ */
-export default Ember.Controller.extend(DocumentClickMixin, {
+export default Ember.Controller.extend(WindowResizeMixin, {
   counter: 1,
   actions: {
     /*
      * Create new card and persist to localStorage.
      */
     newCard() {
-      this.get('store').createRecord('card', { title: `Story #${this.counter++}` }).save();
+      this.get('store').createRecord('card', { title: `Story #${this.counter++}`, color: 'white' }).save();
     },
 
     /*
@@ -23,15 +23,20 @@ export default Ember.Controller.extend(DocumentClickMixin, {
     }
   },
 
-  onDocumentClick() {
-    $('.card').removeClass('active');
-    $('.card-actions').removeClass('active');
-    $('.color-chooser').removeClass('open');
-    $('#color-chooser-dropdown').hide();
+  /*
+   * On window resize, update height for .columns-container
+   */
+  onWindowResize() {
+    var h = $('body').height() - 115;
+    $('.columns-container').height(h + 'px');
+  },
+
+  init() {
+    $(document).ready(this.onWindowResize);
   }
+
 });
 
-// TODO: window resize handler and updateScrollHeight
 // TODO: drag and drop, and sortable
 // TODO: color changer
 // TODO: remove card

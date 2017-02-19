@@ -1,19 +1,16 @@
 import Ember from 'ember';
+import DocumentClickMixin from '../mixins/document-click';
+import WindowResizeMixin from '../mixins/window-resize';
 
 /* globals $ */
-export default Ember.Component.extend({
-  id: this.id,
-  classNames: ['card', this.color],
+export default Ember.Component.extend(DocumentClickMixin, WindowResizeMixin, {
+  classNameBindings: [':card', 'color'],
   actions: {
     /*
      * Title onInput
      */
     onInput(event) {
-      if (event.target.scrollHeight > 30) {
-        let target = $(event.target);
-        target.height('');
-        target.height(Math.min(event.target.scrollHeight, /*heightLimit=*/200) + 'px');
-      }
+      this.updateScrollHeight.call(event.target);
     },
 
     /*
@@ -30,23 +27,41 @@ export default Ember.Component.extend({
      */
     onBlur(event) {
       var thisCard = this.$();
-      thisCard.removeClass('active');
+      thisCard.removeClass('is-editing');
       this.get('onTitleEnter')(thisCard.attr('id'), event.target.value);
+    },
+
+    onColorChangeClick(event) {
+      event.stopPropagation();
+      var thisCard = this.$();
+      thisCard[thisCard.hasClass('open-colors') ? 'removeClass' : 'addClass']('open-colors');
     }
+  },
+
+  updateScrollHeight() {
+    if (this.scrollHeight > 30) {
+      let cardTitle = $(this);
+      cardTitle.height('');
+      cardTitle.height(Math.min(this.scrollHeight, /*heightLimit=*/200) + 'px');
+    }
+  },
+
+  onWindowResize() {
+    $('.card-title').each(this.updateScrollHeight);
   },
 
   didInsertElement() {
     var thisCard = this.$();
+
     thisCard.click((event) => {
       event.stopPropagation();
-
-      $('.card-actions').removeClass('active');
-      $('#color-chooser-dropdown').hide();
-
-      var target = $(event.target);
+      thisCard.removeClass('open-colors');
+      let target = $(event.target);
       if (target.is('.card-title')) {
-        thisCard.addClass('active');
+        thisCard.addClass('is-editing');
       }
     });
+
+    this.updateScrollHeight.call(thisCard.find('.card-title')[0]);
   }
 });
