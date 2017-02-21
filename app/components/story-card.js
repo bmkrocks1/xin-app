@@ -31,6 +31,9 @@ export default Ember.Component.extend(DocumentClickMixin, WindowResizeMixin, {
       this.get('onTitleEnter')(thisCard.attr('id'), event.target.value);
     },
 
+    /*
+     * Toggle color changer drop down menu
+     */
     onColorChangeClick(event) {
       event.stopPropagation();
 
@@ -43,16 +46,17 @@ export default Ember.Component.extend(DocumentClickMixin, WindowResizeMixin, {
       }
 
       var cardColors = thisCard.find('.card-colors'),
-          offset = cardColors.offset(),
-          top = offset.top + 18,
+          colorChooser = thisCard.find('.color-chooser'),
+          top = 18,
           left;
 
-      if (cardColors.attr('data-placement') === 'left') {
+      if (colorChooser.attr('data-placement') === 'left') {
         cardColors.addClass('placement-left');
-        // TODO: compute left
+        left = cardColors.parent().width() - cardColors.width() + 6;
       }
       else {
-        left = offset.left + cardColors.parent().width() - 25;
+        cardColors.removeClass('placement-left');
+        left = cardColors.parent().width() - 25;
       }
 
       cardColors.css({ top: top + 'px', left: left + 'px' });
@@ -63,8 +67,8 @@ export default Ember.Component.extend(DocumentClickMixin, WindowResizeMixin, {
       this.get('onColorSelect')(id, color);
     },
 
-    onRemoveClick(id) {
-      this.get('onRemoveCard')(this.get('id'));
+    onRemoveClick() {
+      this.get('onRemoveCard')(this.$().attr('id'));
     }
   },
 
@@ -93,5 +97,42 @@ export default Ember.Component.extend(DocumentClickMixin, WindowResizeMixin, {
     });
 
     this.updateScrollHeight.call(thisCard.find('.card-title')[0]);
+
+    // -- Make it draggable
+    $(this.$()).draggable({
+      containment: '.columns-container',
+      connectToSortable: '.cards-container',
+      revert: 'invalid',
+      zIndex: 100,
+      opacity: 0.95,
+      start(event, ui) {
+        // -- Create a card drop placeholder at the bottom of each .cards-container
+        // excluding the container where the dragged card came from.
+        $('.cards-container').not(thisCard.parent()).append('<div class="card-drop-placeholder"></div>');
+        $('.card-drop-placeholder')
+          .css({ height: ui.helper.height() })
+          .droppable({
+            accept: '.card',
+            tolerance: 'intersect',
+            over: function(event, ui) {
+              $(this).css({
+                borderColor: ui.draggable.css('borderColor'),
+                background: '#eee'
+              });
+            },
+            out: function() {
+              $(this).css({ borderColor: '', background: '' });
+            }
+          });
+      },
+      stop() {
+        // -- Remove the card drop placeholders
+        $('.card-drop-placeholder').remove();
+      },
+      drag(event, ui) {
+        $('.card.open-colors').removeClass('open-colors');
+        ui.helper.parent().addClass('dragging-from');
+      }
+    });
   }
 });

@@ -51,11 +51,25 @@ export default Ember.Controller.extend(WindowResizeMixin, {
   },
 
   init() {
-    $(document).ready(this.onWindowResize);
+    $(document).ready(() => {
+      this.onWindowResize();
+
+      // -- Make the .cards-container sortable
+      $('.cards-container').sortable({
+        containment: '.columns-container',
+        items: '.card.ui-draggable',
+        tolerance: 'pointer',
+        receive(event, ui) {
+          var draggedCard = ui.item;
+          draggedCard.parent().removeClass('dragging-from');
+          draggedCard.removeClass('open-colors');
+          // clear unwanted styles
+          draggedCard.css({ left: '', top: '', width: '', height: ''});
+          // update data-placement attribute for the drop down placement
+          draggedCard.find('.color-chooser').attr('data-placement', draggedCard.parent().is('#done') ? 'left' : 'right');
+        }
+      });
+    });
   }
 
 });
-
-// TODO: drag and drop, and sortable
-// TODO: color changer
-// TODO: remove card
