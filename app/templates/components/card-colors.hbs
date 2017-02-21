@@ -3,6 +3,6 @@
 </li>
 {{#each colors as |color|}}
     <li>
-        <a onclick="{{action "onColorSelect" color}}"><div class="cc {{color}}"></div>{{color}}</a>
+        <a onclick={{action "onColorSelect" color}}><div class="cc {{color}}"></div>{{color}}</a>
     </li>
 {{/each}}

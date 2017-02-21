@@ -33,8 +33,38 @@ export default Ember.Component.extend(DocumentClickMixin, WindowResizeMixin, {
 
     onColorChangeClick(event) {
       event.stopPropagation();
+
       var thisCard = this.$();
-      thisCard[thisCard.hasClass('open-colors') ? 'removeClass' : 'addClass']('open-colors');
+      $('.card.open-colors').not(thisCard).removeClass('open-colors');
+
+      if (thisCard.hasClass('open-colors')) {
+        thisCard.removeClass('open-colors');
+        return;
+      }
+
+      var cardColors = thisCard.find('.card-colors'),
+          offset = cardColors.offset(),
+          top = offset.top + 18,
+          left;
+
+      if (cardColors.attr('data-placement') === 'left') {
+        cardColors.addClass('placement-left');
+        // TODO: compute left
+      }
+      else {
+        left = offset.left + cardColors.parent().width() - 25;
+      }
+
+      cardColors.css({ top: top + 'px', left: left + 'px' });
+      thisCard.addClass('open-colors');
+    },
+
+    updateColor(id, color) {
+      this.get('onColorSelect')(id, color);
+    },
+
+    onRemoveClick(id) {
+      this.get('onRemoveCard')(this.get('id'));
     }
   },
 

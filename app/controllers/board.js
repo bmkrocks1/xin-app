@@ -20,6 +20,25 @@ export default Ember.Controller.extend(WindowResizeMixin, {
         card.set('title', title);
         card.save();
       });
+    },
+
+    /*
+     * Update card's color
+     */
+    updateColor(id, color) {
+      this.get('store').findRecord('card', id).then((card) => {
+        card.set('color', color);
+        card.save();
+      });
+    },
+
+    /*
+     * Remove card
+     */
+    removeCard(id) {
+      this.get('store').findRecord('card', id).then((card) => {
+        card.destroyRecord();
+      });
     }
   },
 

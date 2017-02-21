@@ -32,7 +32,9 @@
                 <div class="cards-container">
 
                   {{#each model as |card|}}
-                    {{#story-card id=card.id color=card.color title=card.title onTitleEnter=(action "updateTitle")}}
+                    {{#story-card id=card.id color=card.color title=card.title
+                      onTitleEnter=(action "updateTitle") onColorSelect=(action "updateColor")
+                      onRemoveCard=(action "removeCard")}}
                     {{/story-card}}
                   {{/each}}
 
