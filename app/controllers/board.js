@@ -1,7 +1,6 @@
 import Ember from 'ember';
 import WindowResizeMixin from '../mixins/window-resize';
 
-/* globals $ */
 export default Ember.Controller.extend(WindowResizeMixin, {
   actions: {
     /*
@@ -10,7 +9,7 @@ export default Ember.Controller.extend(WindowResizeMixin, {
     newCard() {
       var order = this.get('model').backlog.get('length');
       this.get('store').createRecord('card', {
-        title: 'Story #' + ++order,
+        title: 'Story #' + (++order),
         order: order
       }).save();
       // TODO: created card is not added in the view.
@@ -58,7 +57,7 @@ export default Ember.Controller.extend(WindowResizeMixin, {
   },
 
   init() {
-    $(document).ready(() => { this.onWindowResize() });
+    $(document).ready(() => { this.onWindowResize(); });
   },
 
   backlog: Ember.computed('model.@each.status', function() {

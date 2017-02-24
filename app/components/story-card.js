@@ -2,7 +2,6 @@ import Ember from 'ember';
 import DocumentClickMixin from '../mixins/document-click';
 import WindowResizeMixin from '../mixins/window-resize';
 
-/* globals $ */
 export default Ember.Component.extend(DocumentClickMixin, WindowResizeMixin, {
   actions: {
     /*
