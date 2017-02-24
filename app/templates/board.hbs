@@ -29,28 +29,39 @@
         <!-- Columns -->
         <div class="row columns-container">
             <div class="col-xs-4">
-                <div class="cards-container">
+              {{#cards-container id="backlog" classNames="cards-container"
+                updateCardStatus=(action "updateCardStatus") updateCardsOrder=(action "updateCardsOrder")
+                cards=backlog as |card|}}
 
-                  {{#each model as |card|}}
-                    {{#story-card id=card.id color=card.color title=card.title
-                      onTitleEnter=(action "updateTitle") onColorSelect=(action "updateColor")
-                      onRemoveCard=(action "removeCard")}}
-                    {{/story-card}}
-                  {{/each}}
+                {{story-card card=card id=card.id classNameBindings=":card card.color"
+                  updateCardTitle=(action "updateCardTitle") updateCardColor=(action "updateCardColor")
+                  removeCard=(action "removeCard")}}
 
-                </div>
+              {{/cards-container}}
             </div>
             <div class="col-xs-4">
-                <div class="cards-container"></div>
+              {{#cards-container id="in-progress" classNames="cards-container"
+                updateCardStatus=(action "updateCardStatus") updateCardsOrder=(action "updateCardsOrder")
+                cards=inProgress as |card|}}
+
+                {{story-card card=card id=card.id classNameBindings=":card card.color"
+                  updateCardTitle=(action "updateCardTitle") updateCardColor=(action "updateCardColor")
+                  removeCard=(action "removeCard")}}
+
+              {{/cards-container}}
             </div>
             <div class="col-xs-4">
-                <div id="done" class="cards-container"></div>
+              {{#cards-container id="done" classNames="cards-container"
+                updateCardStatus=(action "updateCardStatus") updateCardsOrder=(action "updateCardsOrder")
+                cards=done as |card|}}
+
+                {{story-card card=card id=card.id classNameBindings=":card card.color"
+                  updateCardTitle=(action "updateCardTitle") updateCardColor=(action "updateCardColor")
+                  removeCard=(action "removeCard")}}
+
+              {{/cards-container}}
             </div>
         </div>
 
     </div>
 </section>
-
-<ul id="color-chooser-dropdown" class="dropdown-menu">
-
-</ul>

@@ -8,10 +8,9 @@ export default Ember.Component.extend(DocumentClickMixin, {
   actions: {
     onColorSelect(color) {
       var thisDropDown = this.$();
-      this.get('onColorSelect')(thisDropDown.parent().attr('id'), color);
+      this.get('updateCardColor')(thisDropDown.parent().attr('id'), color);
     }
   },
-
   onDocumentClick() {
     this.$().closest('.card').removeClass('open-colors');
   }

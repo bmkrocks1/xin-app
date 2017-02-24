@@ -4,7 +4,6 @@ import WindowResizeMixin from '../mixins/window-resize';
 
 /* globals $ */
 export default Ember.Component.extend(DocumentClickMixin, WindowResizeMixin, {
-  classNameBindings: [':card', 'color'],
   actions: {
     /*
      * Title onInput
@@ -28,13 +27,13 @@ export default Ember.Component.extend(DocumentClickMixin, WindowResizeMixin, {
     onBlur(event) {
       var thisCard = this.$();
       thisCard.removeClass('is-editing');
-      this.get('onTitleEnter')(thisCard.attr('id'), event.target.value);
+      this.get('updateCardTitle')(thisCard.attr('id'), event.target.value);
     },
 
     /*
-     * Toggle color changer drop down menu
+     * Toggle color chooser menu
      */
-    onColorChangeClick(event) {
+    onColorChooserClick(event) {
       event.stopPropagation();
 
       var thisCard = this.$();
@@ -63,12 +62,12 @@ export default Ember.Component.extend(DocumentClickMixin, WindowResizeMixin, {
       thisCard.addClass('open-colors');
     },
 
-    updateColor(id, color) {
-      this.get('onColorSelect')(id, color);
+    onRemoveClick() {
+      this.get('removeCard')(this.$().attr('id'));
     },
 
-    onRemoveClick() {
-      this.get('onRemoveCard')(this.$().attr('id'));
+    updateCardColor(id, color) {
+      this.get('updateCardColor')(id, color);
     }
   },
 
@@ -87,7 +86,7 @@ export default Ember.Component.extend(DocumentClickMixin, WindowResizeMixin, {
   didInsertElement() {
     var thisCard = this.$();
 
-    thisCard.click((event) => {
+    thisCard.click(event => {
       event.stopPropagation();
       thisCard.removeClass('open-colors');
       let target = $(event.target);
@@ -96,6 +95,7 @@ export default Ember.Component.extend(DocumentClickMixin, WindowResizeMixin, {
       }
     });
 
+    thisCard.find('.color-chooser').attr('data-placement', thisCard.parent().is('#done') ? 'left' : 'right');
     this.updateScrollHeight.call(thisCard.find('.card-title')[0]);
 
     // -- Make it draggable
@@ -105,18 +105,20 @@ export default Ember.Component.extend(DocumentClickMixin, WindowResizeMixin, {
       revert: 'invalid',
       zIndex: 100,
       opacity: 0.95,
-      start(event, ui) {
+      start() {
+        $('.open-colors').removeClass('open-colors');
+        thisCard.parent().addClass('dragging-from');
         // -- Create a card drop placeholder at the bottom of each .cards-container
         // excluding the container where the dragged card came from.
         $('.cards-container').not(thisCard.parent()).append('<div class="card-drop-placeholder"></div>');
         $('.card-drop-placeholder')
-          .css({ height: ui.helper.height() })
+          .css({ height: thisCard.height() })
           .droppable({
             accept: '.card',
             tolerance: 'intersect',
-            over: function(event, ui) {
+            over: function() {
               $(this).css({
-                borderColor: ui.draggable.css('borderColor'),
+                borderColor: thisCard.css('borderColor'),
                 background: '#eee'
               });
             },
@@ -128,10 +130,6 @@ export default Ember.Component.extend(DocumentClickMixin, WindowResizeMixin, {
       stop() {
         // -- Remove the card drop placeholders
         $('.card-drop-placeholder').remove();
-      },
-      drag(event, ui) {
-        $('.card.open-colors').removeClass('open-colors');
-        ui.helper.parent().addClass('dragging-from');
       }
     });
   }

@@ -3,42 +3,49 @@ import WindowResizeMixin from '../mixins/window-resize';
 
 /* globals $ */
 export default Ember.Controller.extend(WindowResizeMixin, {
-  counter: 1,
   actions: {
     /*
-     * Create new card and persist to localStorage.
+     * Create new card and persist to the store.
      */
     newCard() {
-      this.get('store').createRecord('card', { title: `Story #${this.counter++}`, color: 'white' }).save();
+      var order = this.get('model').backlog.get('length');
+      this.get('store').createRecord('card', {
+        title: 'Story #' + ++order,
+        order: order
+      }).save();
+      // TODO: created card is not added in the view.
     },
 
-    /*
-     * Update card's title
-     */
-    updateTitle(id, title) {
-      this.get('store').findRecord('card', id).then((card) => {
-        card.set('title', title);
+    updateCardTitle(id, newTitle) {
+      this.get('store').findRecord('card', id).then(card => {
+        card.set('title', newTitle);
         card.save();
       });
     },
 
-    /*
-     * Update card's color
-     */
-    updateColor(id, color) {
-      this.get('store').findRecord('card', id).then((card) => {
-        card.set('color', color);
+    updateCardColor(id, newColor) {
+      this.get('store').findRecord('card', id).then(card => {
+        card.set('color', newColor);
         card.save();
       });
     },
 
-    /*
-     * Remove card
-     */
+    updateCardStatus(id, status) {
+      this.get('store').findRecord('card', id).then(card => {
+        card.set('status', status);
+        card.save();
+      });
+    },
+
+    updateCardsOrder() {
+      // TODO: implementation
+    },
+
     removeCard(id) {
-      this.get('store').findRecord('card', id).then((card) => {
+      this.get('store').findRecord('card', id).then(card => {
         card.destroyRecord();
       });
+      // TODO: fix bug where a card moved from different column then removed, it is not removed from the view.
     }
   },
 
@@ -51,25 +58,19 @@ export default Ember.Controller.extend(WindowResizeMixin, {
   },
 
   init() {
-    $(document).ready(() => {
-      this.onWindowResize();
+    $(document).ready(() => { this.onWindowResize() });
+  },
 
-      // -- Make the .cards-container sortable
-      $('.cards-container').sortable({
-        containment: '.columns-container',
-        items: '.card.ui-draggable',
-        tolerance: 'pointer',
-        receive(event, ui) {
-          var draggedCard = ui.item;
-          draggedCard.parent().removeClass('dragging-from');
-          draggedCard.removeClass('open-colors');
-          // clear unwanted styles
-          draggedCard.css({ left: '', top: '', width: '', height: ''});
-          // update data-placement attribute for the drop down placement
-          draggedCard.find('.color-chooser').attr('data-placement', draggedCard.parent().is('#done') ? 'left' : 'right');
-        }
-      });
-    });
-  }
+  backlog: Ember.computed('model.@each.status', function() {
+    return this.get('store').query('card', { status: 'backlog' });
+  }),
+
+  inProgress: Ember.computed('model.@each.status', function() {
+    return this.get('store').query('card', { status: 'in-progress' });
+  }),
+
+  done: Ember.computed('model.@each.status', function() {
+    return this.get('store').query('card', { status: 'done' });
+  })
 
 });
