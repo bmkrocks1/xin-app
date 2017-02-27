@@ -36,7 +36,7 @@ export default Ember.Component.extend(DocumentClickMixin, WindowResizeMixin, {
       event.stopPropagation();
 
       var thisCard = this.$();
-      $('.card.open-colors').not(thisCard).removeClass('open-colors');
+      $('.open-colors').not(thisCard).removeClass('open-colors');
 
       if (thisCard.hasClass('open-colors')) {
         thisCard.removeClass('open-colors');

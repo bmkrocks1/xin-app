@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  cardsOrder: ['order'],
+  cardsOrder: ['order:asc'],
   orderedCards: Ember.computed.sort('cards', 'cardsOrder'),
   initSortable: function() {
     var self = this;
@@ -9,21 +9,28 @@ export default Ember.Component.extend({
     $(this.$()).sortable({
       containment: '.columns-container',
       items: '.card.ui-draggable',
-      tolerance: 'pointer',
       update: function(event, ui) {
         var draggedCard = ui.item,
-            draggingFrom = draggedCard.parent().attr('id');
+            draggingFrom = $('.dragging-from'),
+            draggingFromId = draggingFrom.attr('id'),
+            draggingTo = draggedCard.parent(),
+            draggingToId = draggingTo.attr('id');
 
-        $('.dragging-from').removeClass('dragging-from');
+        draggingFrom.removeClass('dragging-from');
         draggedCard.removeClass('open-colors');
         // clear unwanted styles
         draggedCard.css({ left: '', top: '', width: '', height: ''});
-        draggedCard.find('.color-chooser').attr('data-placement', draggedCard.parent().is('#done') ? 'left' : 'right');
+        draggedCard.find('.color-chooser').attr('data-placement', draggingTo.is('#done') ? 'left' : 'right');
 
-        $(this).sortable('cancel');
+        var columns = {};
+        columns[draggingFromId] = $.map(draggingFrom.find('.card'), card => card.id);
+        columns[draggingToId] = $.map(draggingTo.find('.card'), card => card.id);
+        self.get('updateCardsOrder')(columns, draggedCard.attr('id'));
 
-        self.get('updateCardStatus')(draggedCard.attr('id'), draggedCard.parent().attr('id'));
-        self.get('updateCardsOrder')();
+        if (draggingFromId !== draggingToId) {
+          // remove doppelganger
+          draggedCard.remove();
+        }
       }
     });
   }.on('didInsertElement')

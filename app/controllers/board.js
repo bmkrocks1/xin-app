@@ -2,17 +2,21 @@ import Ember from 'ember';
 import WindowResizeMixin from '../mixins/window-resize';
 
 export default Ember.Controller.extend(WindowResizeMixin, {
+  backlog: [],
+  inProgress: [],
+  done: [],
   actions: {
     /*
      * Create new card and persist to the store.
      */
     newCard() {
-      var order = this.get('model').backlog.get('length');
-      this.get('store').createRecord('card', {
-        title: 'Story #' + (++order),
+      var order = this.get('backlog').get('length');
+      var createdCard = this.get('store').createRecord('card', {
+        title: 'Story #' + (order + 1),
         order: order
-      }).save();
-      // TODO: created card is not added in the view.
+      });
+      createdCard.save();
+      this.get('backlog').pushObject(createdCard);
     },
 
     updateCardTitle(id, newTitle) {
@@ -36,15 +40,57 @@ export default Ember.Controller.extend(WindowResizeMixin, {
       });
     },
 
-    updateCardsOrder() {
-      // TODO: implementation
+    updateCardsOrder({ 'backlog': backlog, 'in-progress': inProgress, 'done': done }) {
+      if (backlog) {
+        this.set('backlog', []);
+        backlog.forEach((cardId, index) => {
+          this.get('store').findRecord('card', cardId).then(card => {
+            card.set('status', 'backlog');
+            card.set('order', index);
+            card.save();
+            this.get('backlog').pushObject(card);
+          });
+        });
+      }
+
+      if (inProgress) {
+        this.set('inProgress', []);
+        inProgress.forEach((cardId, index) => {
+          this.get('store').findRecord('card', cardId).then(card => {
+            card.set('status', 'in-progress');
+            card.set('order', index);
+            card.save();
+            this.get('inProgress').pushObject(card);
+          });
+        });
+      }
+
+      if (done) {
+        this.set('done', []);
+        done.forEach((cardId, index) => {
+          this.get('store').findRecord('card', cardId).then(card => {
+            card.set('status', 'done');
+            card.set('order', index);
+            card.save();
+            this.get('done').pushObject(card);
+          });
+        });
+      }
     },
 
     removeCard(id) {
       this.get('store').findRecord('card', id).then(card => {
+        let status = card.get('status');
+        this.get(status === 'in-progress' ? 'inProgress' : status).removeObject(card);
         card.destroyRecord();
       });
-      // TODO: fix bug where a card moved from different column then removed, it is not removed from the view.
+    },
+
+    clear() {
+      localStorage.clear();
+      this.set('backlog', []);
+      this.set('inProgress', []);
+      this.set('done', []);
     }
   },
 
@@ -57,19 +103,20 @@ export default Ember.Controller.extend(WindowResizeMixin, {
   },
 
   init() {
+    this.get('store').query('card', { status: 'backlog' }).then(cards => {
+      this.set('backlog', cards.toArray());
+    });
+
+    this.get('store').query('card', { status: 'in-progress' }).then(cards => {
+      this.set('inProgress', cards.toArray());
+    });
+
+    this.get('store').query('card', { status: 'done' }).then(cards => {
+      this.set('done', cards.toArray());
+    });
+
+    document.title = 'Xin | Board';
     $(document).ready(() => { this.onWindowResize(); });
-  },
-
-  backlog: Ember.computed('model.@each.status', function() {
-    return this.get('store').query('card', { status: 'backlog' });
-  }),
-
-  inProgress: Ember.computed('model.@each.status', function() {
-    return this.get('store').query('card', { status: 'in-progress' });
-  }),
-
-  done: Ember.computed('model.@each.status', function() {
-    return this.get('store').query('card', { status: 'done' });
-  })
+  }
 
 });

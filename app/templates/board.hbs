@@ -4,7 +4,7 @@
             <div class="col-xs-12 sub-header-wrap">
                 <h1>Xin Board</h1>
                 <button {{action "newCard"}} class="btn btn-primary btn-sm" type="button" title="Add a new card">New Card</button>
-                <button class="btn btn-default btn-sm pull-right" type="button" title="Remove all cards">Clear</button>
+                <button {{action "clear"}} class="btn btn-default btn-sm pull-right" type="button" title="Remove all cards">Clear</button>
             </div>
         </div>
     </div>
@@ -15,15 +15,9 @@
 
         <!-- Column Header -->
         <div class="row column-header">
-            <div class="col-xs-4">
-                <h2>Backlog</h2>
-            </div>
-            <div class="col-xs-4">
-                <h2>In Progress</h2>
-            </div>
-            <div class="col-xs-4">
-                <h2>Done</h2>
-            </div>
+            <div class="col-xs-4"><h2>Backlog</h2></div>
+            <div class="col-xs-4"><h2>In Progress</h2></div>
+            <div class="col-xs-4"><h2>Done</h2></div>
         </div>
 
         <!-- Columns -->
@@ -62,6 +56,5 @@
               {{/cards-container}}
             </div>
         </div>
-
     </div>
 </section>

@@ -12,6 +12,12 @@ body {
   overflow: hidden;
 }
 
+.jumbotron {
+  background: #006ba9;
+  color: #fff;
+  margin-top: 20px;
+}
+
 .btn-primary {
   background: #42A5F5;
   border-color: #1976D2;
