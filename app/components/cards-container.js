@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+  classNames: ['cards-container'],
   cardsOrder: ['order:asc'],
   orderedCards: Ember.computed.sort('cards', 'cardsOrder'),
   initSortable: function() {
@@ -25,7 +26,7 @@ export default Ember.Component.extend({
         var columns = {};
         columns[draggingFromId] = $.map(draggingFrom.find('.card'), card => card.id);
         columns[draggingToId] = $.map(draggingTo.find('.card'), card => card.id);
-        self.get('updateCardsOrder')(columns, draggedCard.attr('id'));
+        self.reorderCards(columns, draggedCard.attr('id'));
 
         if (draggingFromId !== draggingToId) {
           // remove doppelganger
@@ -34,5 +35,4 @@ export default Ember.Component.extend({
       }
     });
   }.on('didInsertElement')
-
 });

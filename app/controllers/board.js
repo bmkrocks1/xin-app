@@ -33,14 +33,7 @@ export default Ember.Controller.extend(WindowResizeMixin, {
       });
     },
 
-    updateCardStatus(id, status) {
-      this.get('store').findRecord('card', id).then(card => {
-        card.set('status', status);
-        card.save();
-      });
-    },
-
-    updateCardsOrder({ 'backlog': backlog, 'in-progress': inProgress, 'done': done }) {
+    reorderCards({ 'backlog': backlog, 'in-progress': inProgress, 'done': done }) {
       if (backlog) {
         this.set('backlog', []);
         backlog.forEach((cardId, index) => {

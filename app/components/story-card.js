@@ -3,6 +3,7 @@ import DocumentClickMixin from '../mixins/document-click';
 import WindowResizeMixin from '../mixins/window-resize';
 
 export default Ember.Component.extend(DocumentClickMixin, WindowResizeMixin, {
+  classNameBindings: [':card', 'card.color'],
   actions: {
     /*
      * Title onInput
