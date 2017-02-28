@@ -44,6 +44,7 @@ module.exports = function(environment) {
 
   if (environment === 'production') {
     ENV.rootURL = '/xin-app/';
+    ENV.locationType = 'hash';
   }
 
   return ENV;
